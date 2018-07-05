@@ -5,7 +5,7 @@ var fields = {
 var oldFile = new SCFile('infFilials');
 var newFile = new SCFile('infFilialsNew');
 var oldrecs,newrecs;
-//oldrecs = oldFile.doSelect('merge.selection~="Обновить"');
+
 oldrecs = oldFile.doSelect('true');
 	if(oldrecs == RC_SUCCESS){
 		//print('old ok');
@@ -42,7 +42,7 @@ oldrecs = oldFile.doSelect('true');
 						else if(newFile[fields['oldFields'][fieldCount]] == true){
 							print('active');
 							vars['$nval'] = system.functions.insert(vars['$nval'],0,1,'ДА');
-							vars['$nfield'] =  system.functions.insert(vars['$field'],0,1,fields['newFields'][fieldCount]);
+							vars['$nfield'] =  system.functions.insert(vars['$nfield'],0,1,fields['newFields'][fieldCount]);
 						}
 						else if(newFile[fields['oldFields'][fieldCount]] == false){
 							print('ne active');
@@ -53,8 +53,10 @@ oldrecs = oldFile.doSelect('true');
 						}
 						// print(vars['$ofield']);
 						// print(vars['$nfield']);
+						// print(vars['$action']);
 					}
 				//}
 			}
 		}while(oldFile.getNext() == RC_SUCCESS)
 	}
+	print(vars['$action'].length())
