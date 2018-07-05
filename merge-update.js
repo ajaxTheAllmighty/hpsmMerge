@@ -11,12 +11,9 @@ var updateNewateNew = new SCFile('infFilialsNew');
 		//updateNew.id = vars['$nval'][recordCount+1];
 		updateNew.current.phase = vars['$nval'][recordCount+6];
 		print(updateNew);
-		var rc = updateNew.doInsert();
-		if ( rc == RC_SUCCESS ){
-			print('ok');
-		}
-		//
+		updateNew.doInsert();
 	}
+	
 	var upd  = new SCFile('infFilials');
 	var sel = new SCFile('infFilials');
 	var query;
