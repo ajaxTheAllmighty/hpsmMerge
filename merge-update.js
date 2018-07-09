@@ -12,7 +12,6 @@ var query;
 		//upd.id = propCount;
 		upd.status = vars['$action'][propCount];
 		upd.whoUpdated = system.functions.operator();
-		var date = new SCDatum(system.functions.tod());
-		upd.dateUpdated = date.JSDate();
+		upd.dateUpdated =system.functions.tod();
 			query = upd.doInsert();
 	}
