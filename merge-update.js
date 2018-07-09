@@ -2,7 +2,7 @@ var upd = new SCFile('INFIntegrationBuffer');
 var query;
 
 	for(var propCount = 0; propCount<vars['$action'].length(); propCount++){
-		if(vars['$action']!= 'new'){
+		if(vars['$action'][propCount]!= 'new'){
 			if(propCount%7 == 0){
 				upd.ci_name = vars['$oval'][propCount];
 			}
