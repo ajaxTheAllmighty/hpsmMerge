@@ -1,3 +1,4 @@
+// UNUSED
 var fields = {
 	oldFields:['name','dateCreated','dateUpdated','isActive','id','contact','current.phase'],
 	newFields:['name','dateCreated','dateUpdated','isActive','id','contact','current.phase']
@@ -14,7 +15,7 @@ if(initialQuery == RC_SUCCESS){
 		buffer.cmdb_value = initalData['name'];
 		buffer.ci_name = initalData['current.phase'];
 		buffer.sccm_name = 'id';
-		buffer.sccm_value = initalData['id'];
+		buffer.sccm_value = initalData[id];
 		buffer.status = system.functions.tod()+" "+system.functions.operator();
 		bufferQuery = buffer.doInsert();
 		if(bufferQuery == RC_SUCCESS){

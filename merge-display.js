@@ -59,4 +59,8 @@ oldrecs = oldFile.doSelect('true');
 			}
 		}while(oldFile.getNext() == RC_SUCCESS)
 	}
-	print(vars['$action'].length())
+	//print(vars['$action'].length())
+
+	for(var i =0; i < vars['$action'].length(); i ++){
+		print(vars['$ofield'][i]+" "+vars['$oval'][i]+" "+vars['$nfield'][i]+" "+vars['$nval'][i]+" "+vars['$action'][i])
+	}
