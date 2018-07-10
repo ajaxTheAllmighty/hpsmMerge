@@ -1,0 +1,17 @@
+Настроить отображение, сверку и обновление информации по ТЗТЗ на интеграцию HPSM и SCCM
+
+Create:
+	wizards:
+		Test trasnfer.prep	:  сведение данных в одну таблицу для отображения по полям merge-prep.js
+		Test trasnfer (filials)	:  отображение данных с возможностью выбора для обновления\игнорирования merge-display.js
+		Test transfer.upd	: обновление данных в соответсствии с выбором merge-update.js
+		test transfer showResults	: отображение результатов merge-display-results.js
+Mod:
+	triggers:
+		INFIntegrationBuffer.b.a.setId отключил
+
+Ручные действия:
+	dbdict:
+		sccmHardware:
+			добавить поле:
+				wasUpdated логическое - для отсекания записей которые были обновлены

@@ -5,7 +5,7 @@ var cmdb = new SCFile('device');
 var buffer = new SCFile('INFIntegrationBuffer');
 var cmdbQuery;
 var bufferQuery;
-var sccmQuery = sccm.doSelect('wasUpdated~=true'){
+var sccmQuery = sccm.doSelect('wasUpdated~="true"');
 	if(sccmQuery == RC_SUCCESS){
 		do{
 			cmdbQuery = cmdb.doSelect('serial.no. = "'+sccm['SerialNumber0']+'"');
@@ -93,3 +93,4 @@ var sccmQuery = sccm.doSelect('wasUpdated~=true'){
 		}while(sccmQuery.getNext()==RC_SUCCESS)
 	}
 }
+// TODO: Замутить нормальное добавление

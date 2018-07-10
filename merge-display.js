@@ -1,5 +1,5 @@
 var data = new SCFile('INFIntegrationBuffer');
-	var query = data.doSelect('status="new"'){
+	var query = data.doSelect('status="new"')
 		if(query == RC_SUCCESS){
 			do{
 				vars['$action'] = system.functions.insert(vars['$action'],0,1,data['status']);
@@ -11,4 +11,3 @@ var data = new SCFile('INFIntegrationBuffer');
 				vars['$name'] = system.functions.insert(vars['$name'],0,1,data['id']);
 			}while(data.getNext()==RC_SUCCESS)
 		}
-	}
