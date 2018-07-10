@@ -3,9 +3,7 @@ var query;
 
 	for(var propCount = 0; propCount<vars['$action'].length(); propCount++){
 		if(vars['$action'][propCount]!= 'new'){
-			if(propCount%7 == 0){
-				upd.ci_name = vars['$oval'][propCount];
-			}
+			upd.ci_name = vars['$name'][propCount];
 			upd.cmdb_name = vars['$ofield'][propCount];
 			upd.cmdb_value = system.functions.val(vars['$oval'][propCount],2);
 			upd.sccm_name = vars['$ofield'][propCount];
