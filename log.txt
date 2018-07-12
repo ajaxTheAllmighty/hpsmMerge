@@ -6,12 +6,23 @@ Create:
 		Test trasnfer (filials)	:  отображение данных с возможностью выбора для обновления\игнорирования merge-display.js
 		Test transfer.upd	: обновление данных в соответсствии с выбором merge-update.js
 		test transfer showResults	: отображение результатов merge-display-results.js
+	displayscreen:
+		mergeWizard.display для отображения кастомных кнопок в визарде (обновить\игнорить все)
+	displayoptions
+		mergeWizard.display_updateAll
+		mergeWizard.display_ignoreAll
 Mod:
 	triggers:
 		INFIntegrationBuffer.b.a.setId отключил
+	merge-display.js:
+		условие для отображения игнорированных записей вверху списка
 
 Ручные действия:
 	dbdict:
 		sccmHardware:
 			добавить поле:
 				wasUpdated логическое - для отсекания записей которые были обновлены
+	formdesigner:
+		infFilials.translate
+			добавить кнопки:
+				Обновить все, Игнорировать все

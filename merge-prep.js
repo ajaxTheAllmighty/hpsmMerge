@@ -7,9 +7,12 @@ var cmdbQuery;
 var bufferQuery;
 var sccmQuery = sccm.doSelect('wasUpdated~="true"');
 	if(sccmQuery == RC_SUCCESS){
+		print('sccm ok');
 		do{
-			cmdbQuery = cmdb.doSelect('serial.no. = "'+sccm['SerialNumber0']+'"');
+			cmdbQuery = cmdb.doSelect('true');
+			//cmdbQuery = cmdb.doSelect('serial.no. = "'+sccm['SerialNumber0']+'"');
 			if(cmdbQuery == RC_SUCCESS){
+				print('add to buffer')
 				do{
 					buffer.id = cmdbQuery['logical.name'];
 					buffer.sccm_name = 'SerialNumber0';						//serial
@@ -88,9 +91,12 @@ var sccmQuery = sccm.doSelect('wasUpdated~="true"');
 					buffer.cmdb_value = cmdbQuery['hdd.capacity'];
 					buffer.status = 'new';
 					bufferQuery = buffer.doInsert();
-				}while(cmdbQuery.getNext()==RC_SUCCESS)
+				}while(cmdbQuery.getNext==RC_SUCCESS)
 			}
-		}while(sccmQuery.getNext()==RC_SUCCESS)
+		}while(sccmQuery.getNext==RC_SUCCESS)
 	}
 }
 // TODO: Замутить нормальное добавление
+
+// TODO: 1 кнопка игнорить все 2 кнопка сохранить все в визарде обновления done
+// TODO: показывать игнорированые вверху
