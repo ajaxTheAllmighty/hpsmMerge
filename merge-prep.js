@@ -13,17 +13,19 @@ var sccmQuery = sccm.doSelect('wasUpdated~="true"');
 		do{
 			//deviceQuery = device.doSelect('true');
 			deviceQuery = device.doSelect('serial.no. = "'+sccm['SerialNumber0']+'"');
-			if(deviceQuery == RC_SUCCESS){
-				joinQuery == joinpc.doSelect('serial.no. = "'+sccm['SerialNumber0']+'"');
-				if(joinQuery == RC_SUCCESS){
+			//if(deviceQuery == RC_SUCCESS){
+				joinQuery == joinpc.doSelect('logical.name = "'+device['logical.name']+'"');
+				//if(joinQuery == RC_SUCCESS){
 					do{
-						print('add to buffer')
 						do{
+							print('add to buffer')
 							buffer.id = deviceQuery['logical.name'];
 							buffer.sccm_name = 'SerialNumber0';						//serial
 							buffer.sccm_value = sccmQuery['SerialNumber0'];
+							print(sccmQuery['SerialNumber0']);
 							buffer.cmdb_name = 'serial.no.';
 							buffer.cmdb_value = deviceQuery['serial.no.'];
+							print(deviceQuery['serial.no.']);
 							buffer.status = 'new';
 							bufferQuery = buffer.doInsert();
 							buffer.id = deviceQuery['logical.name'];
@@ -98,8 +100,8 @@ var sccmQuery = sccm.doSelect('wasUpdated~="true"');
 							bufferQuery = buffer.doInsert();
 						}while(deviceQuery.getNext==RC_SUCCESS)
 					}while(joinQuery.getNext == RC_SUCCESS)
-				}
-			}
+				//}
+			//}
 		}while(sccmQuery.getNext==RC_SUCCESS)
 	}
 }
