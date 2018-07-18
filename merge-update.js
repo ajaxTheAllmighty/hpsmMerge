@@ -8,7 +8,7 @@ var query;
 			upd.cmdb_value = system.functions.val(vars['$oval'][propCount],2);
 			upd.sccm_name = vars['$ofield'][propCount];
 			upd.sccm_value = system.functions.val(vars['$oval'][propCount],2);
-			//upd.id = propCount;
+			upd.id = vars['$name'][propCount];
 			upd.status = vars['$action'][propCount];
 			upd.whoUpdated = system.functions.operator();
 			upd.dateUpdated =system.functions.tod();
