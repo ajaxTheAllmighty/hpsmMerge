@@ -1,13 +1,8 @@
 var data = new SCFile('INFIntegrationBuffer');
-	var query = data.doSelect('status="new"')
+	var query = data.doSelect('status~="update"')
 		if(query == RC_SUCCESS){
 			do{
-				if(data['status']=='ignore'){
-					vars['$action'] = system.functions.insert(vars['$action'],1,1,data['status']);		//добавляется в начало массива
-				}
-				else{
-					vars['$action'] = system.functions.insert(vars['$action'],0,1,data['status']);		//в конец
-				}
+				vars['$action'] = system.functions.insert(vars['$action'],0,1,data['status']);		//в конец
 				vars['status'] = system.functions.insert(vars['$status'],0,1,"Не обработано");
 				vars['$ofield'] = system.functions.insert(vars['$ofield'],0,1,data['cmdb.name']);
 				vars['$oval'] = system.functions.insert(vars['$oval'],0,1,data['cmdb.value']);
