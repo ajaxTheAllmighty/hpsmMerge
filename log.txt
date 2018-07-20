@@ -11,6 +11,8 @@ Create:
 	displayoptions
 		mergeWizard.display_updateAll
 		mergeWizard.display_ignoreAll
+		displayevent
+			merge.add.openLink
 Mod:
 	triggers:
 		INFIntegrationBuffer.b.a.setId отключил
