@@ -1,111 +1,124 @@
 //'SerialNumber0','ResourceID',	'Manufacturer00',	'Model00',	'Name00', 	'UserName00',	'ProcName00',      	'NumberOfCores00', 	'NumberOfLogicalProcessors00',	'IPAddress00',	'MACAddress00',	'Size00'
 //'serial.no.',   				'vendor',    	  	'model',  	'ci.name',	'users',     	'processors.model',	'processors.cores',	'processors.proc',            	'ip.address', 	'mac.address', 	'hdd.capacity'
-var sccm = new SCFile('sccmHardware');
-//var device = new SCFile('device');
-var device = new SCFile('device');
-var joinpc = new SCFile('joinpc');
-var buffer = new SCFile('INFIntegrationBuffer');
-var deviceQuery,joinQuery;
-var bufferQuery;
-var sccmQuery = sccm.doSelect('wasUpdated~="true"');
-	if(sccmQuery == RC_SUCCESS){
-		print('sccm ok');
-		do{
-			//deviceQuery = device.doSelect('true');
-			deviceQuery = device.doSelect('serial.no. = "'+sccm['SerialNumber0']+'"');
-			//if(deviceQuery == RC_SUCCESS){
-				joinQuery == joinpc.doSelect('logical.name = "'+device['logical.name']+'"');
-				//if(joinQuery == RC_SUCCESS){
-					do{
-						do{
-							print('add to buffer')
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'SerialNumber0';						//serial
-							buffer.sccm_value = sccm['SerialNumber0'];
-							//print(sccm['SerialNumber0']);
-							buffer.cmdb_name = 'serial.no.';
-							buffer.cmdb_value = device['serial.no.'];
-							//print(device['serial.no.']);
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'Manufacturer00';						//vendor
-							buffer.sccm_value = sccm['Manufacturer00'];
-							buffer.cmdb_name = 'vendor';
-							buffer.cmdb_value = device['vendor'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'Model00';								//model
-							buffer.sccm_value = sccm['Model00'];
-							buffer.cmdb_name = 'model';
-							buffer.cmdb_value = device['model'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'Name00';								//name
-							buffer.sccm_value = sccm['Name00'];
-							buffer.cmdb_name = 'ci.name';
-							buffer.cmdb_value = device['ci.name'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'UserName00';							//user
-							buffer.sccm_value = sccm['UserName00'];
-							buffer.cmdb_name = 'users';
-							buffer.cmdb_value = device['users'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'ProcName00';							//procname
-							buffer.sccm_value = sccm['ProcName00'];
-							buffer.cmdb_name = 'processors.model';
-							buffer.cmdb_value = joinpc['processors.model'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'NumberOfCores00';						//cores
-							buffer.sccm_value = sccm['NumberOfCores00'];
-							buffer.cmdb_name = 'processors.cores';
-							buffer.cmdb_value = joinpc['processors.cores'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'NumberOfLogicalProcessors00';				//procs
-							buffer.sccm_value = sccm['NumberOfLogicalProcessors00'];
-							buffer.cmdb_name = 'processors.proc';
-							buffer.cmdb_value = joinpc['processors.proc'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'IPAddress00';							//ip
-							buffer.sccm_value = sccm['IPAddress00'];
-							buffer.cmdb_name = 'ip.address';
-							buffer.cmdb_value = device['ip.address'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'MACAddress00';							//mac
-							buffer.sccm_value = sccm['MACAddress00'];
-							buffer.cmdb_name = 'mac.address';
-							buffer.cmdb_value = device['mac.address'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							buffer.id = device['logical.name'];
-							buffer.sccm_name = 'Size00';								//size
-							buffer.sccm_value = sccm['Size00'];
-							buffer.cmdb_name = 'hdd.capacity';
-							buffer.cmdb_value = joinpc['hdd.capacity'];
-							buffer.status = 'new';
-							bufferQuery = buffer.doInsert();
-							print('ok');
-						}while(device.getNext()==RC_SUCCESS)
-					}while(joinpc.getNext() == RC_SUCCESS)
-				//}
-			//}
-		}while(sccm.getNext()==RC_SUCCESS)
-	}
+function upd(id) {
+	var sccm = new SCFile('sccmHardware');
+	var device = new SCFile('device');
+	var joinpc = new SCFile('joinpc');
+	var buffer = new SCFile('INFIntegrationBuffer');
+	var sQuery,dQuery,joinQuery,bfQuery;
+		sQuery = sccm.doSelect('SerialNumber0='+id+'');
+		dQuery = device.doSelect('serial.no.='+id+'');
+		joinQuery = joinpc.doSelect('logical.name='+device['logical.name']+'');
+		try{
+			buffer.id =id;
+			buffer.sccm_name = 'SerialNumber0';						//serial
+			buffer.sccm_value = sccm['SerialNumber0'];
+			//print(sccm['SerialNumber0']
+			buffer.cmdb_name = 'serial.no.';
+			buffer.cmdb_value = device['serial.no.'];
+			//print(device['serial.no.']);
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'Manufacturer00';						//vendor
+			buffer.sccm_value = sccm['Manufacturer00'];
+			buffer.cmdb_name = 'vendor';
+			buffer.cmdb_value = device['vendor'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'Model00';								//model
+			buffer.sccm_value = sccm['Model00'];
+			buffer.cmdb_name = 'model';
+			buffer.cmdb_value = device['model'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'Name00';								//name
+			buffer.sccm_value = sccm['Name00'];
+			buffer.cmdb_name = 'ci.name';
+			buffer.cmdb_value = device['logical.name'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'UserName00';							//user
+			buffer.sccm_value = sccm['UserName00'];
+			buffer.cmdb_name = 'users';
+			buffer.cmdb_value = device['users'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'ProcName00';							//procname
+			buffer.sccm_value = sccm['ProcName00'];
+			buffer.cmdb_name = 'processors.model';
+			buffer.cmdb_value = joinpc['processors.model'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'NumberOfCores00';						//cores
+			buffer.sccm_value = sccm['NumberOfCores00'];
+			buffer.cmdb_name = 'processors.cores';
+			buffer.cmdb_value = joinpc['processors.cores'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'NumberOfLogicalProcessors00';				//procs
+			buffer.sccm_value = sccm['NumberOfLogicalProcessors00'];
+			buffer.cmdb_name = 'processors.proc';
+			buffer.cmdb_value = joinpc['processors.proc'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'IPAddress00';							//ip
+			buffer.sccm_value = sccm['IPAddress00'];
+			buffer.cmdb_name = 'ip.address';
+			buffer.cmdb_value = device['ip.address'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'MACAddress00';							//mac
+			buffer.sccm_value = sccm['MACAddress00'];
+			buffer.cmdb_name = 'mac.address';
+			buffer.cmdb_value = device['mac.address'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+
+			bufferQuery = buffer.doInsert();
+			buffer.id =id;
+			buffer.sccm_name = 'Size00';								//size
+			buffer.sccm_value = sccm['Size00'];
+			buffer.cmdb_name = 'hdd.capacity';
+			buffer.cmdb_value = joinpc['hdd.capacity'];
+			buffer.dateUpdated = system.functions.tod();
+			buffer.whoUpdated = system.functions.operator();
+			bufferQuery = buffer.doInsert();
+			print('ok');
+			lib.DDCCallRAD.wizard_run('merge-upd-selection',null);
+		}
+		catch(e){
+			print('not ok')
+		}
 }
+
+
 
 function showAll(){
 	var sccm = new SCFile('sccmHardware');
@@ -140,7 +153,7 @@ function showAll(){
 	for (var i =0; i<data.length; i++) {
 		var sRowClass = i%2==0 ? "evenRow" : "oddRow";
 			sHtmlReturn += "<tr>";
-			 sHtmlReturn += "<td class=\""+sRowClass+"\" > <a href=scactivelink://sccmHardware> Обновить / </a> <a href=scactivelink://sccmHardware> Игнорировать / </a></td>";
+			 sHtmlReturn += "<td class=\""+sRowClass+"\" > <a href=\"scactivelink://sccmHardware:\> Обновить / </a> <a href=\"scactivelink://sccmHardware:\> Игнорировать / </a></td>";
 			if(data[i]['ResourceID']!=null){
 				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['ResourceID']+"</td>";		//ResourceID
 			}
@@ -160,7 +173,7 @@ function showAll(){
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
 			if(data[i]['Model00']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['Model00.name']+"</td>";		//Model00
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['Model00']+"</td>";		//Model00
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
@@ -172,7 +185,7 @@ function showAll(){
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
 			if(data[i]['UserName00']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['UserName00']+"</td>";		//UserName00
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['UserName00'].replace('ERG\\','')+"</td>";		//UserName00
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
