@@ -9,7 +9,6 @@ function upd(id) {
 		sQuery = sccm.doSelect('SerialNumber0="'+id+'"');
 		dQuery = device.doSelect('serial.no.="'+id+'"');
 		joinQuery = joinpc.doSelect('logical.name="'+device['logical.name']+'"');
-		try{
 			buffer.id =id;
 			buffer.sccm_name = 'SerialNumber0';						//serial
 			buffer.sccm_value = sccm['SerialNumber0'];
@@ -19,7 +18,7 @@ function upd(id) {
 			//print(device['serial.no.']);
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Manufacturer00';						//vendor
@@ -28,7 +27,7 @@ function upd(id) {
 			buffer.cmdb_value = device['vendor'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Model00';								//model
@@ -37,7 +36,7 @@ function upd(id) {
 			buffer.cmdb_value = device['model'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Name00';								//name
@@ -46,7 +45,7 @@ function upd(id) {
 			buffer.cmdb_value = device['logical.name'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'UserName00';							//user
@@ -55,7 +54,7 @@ function upd(id) {
 			buffer.cmdb_value = device['users'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'ProcName00';							//procname
@@ -64,7 +63,7 @@ function upd(id) {
 			buffer.cmdb_value = joinpc['processors.model'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'NumberOfCores00';						//cores
@@ -73,7 +72,7 @@ function upd(id) {
 			buffer.cmdb_value = joinpc['processors.cores'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'NumberOfLogicalProcessors00';				//procs
@@ -82,7 +81,7 @@ function upd(id) {
 			buffer.cmdb_value = joinpc['processors.proc'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'IPAddress00';							//ip
@@ -91,7 +90,7 @@ function upd(id) {
 			buffer.cmdb_value = device['ip.address'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'MACAddress00';							//mac
@@ -100,7 +99,7 @@ function upd(id) {
 			buffer.cmdb_value = device['mac.address'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-				print(system.functuions.contents(buffer));
+				print(system.functions.contents(buffer));
 			bufferQuery = buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Size00';								//size
@@ -111,11 +110,7 @@ function upd(id) {
 			buffer.whoUpdated = system.functions.operator();
 			bufferQuery = buffer.doInsert();
 			print('ok');
-			lib.DDCCallRAD.wizard_run('merge-upd-selection',null);
-		}
-		catch(e){
-			print(e.Message)
-		}
+			lib.DDCCallRAD.wizard_run('merge-update-selection',sccm);
 }
 
 

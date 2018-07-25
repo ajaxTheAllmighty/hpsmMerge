@@ -1,14 +1,13 @@
 var data = new SCFile('INFIntegrationBuffer');
-	var query = data.doSelect('status~="update"')
+	var query = data.doSelect('id="'+vars['$L.file']['SerialNumber0']+'"')
 		if(query == RC_SUCCESS){
 			do{
-				vars['$action'] = system.functions.insert(vars['$action'],0,1,data['status']);		//в конец
-				vars['status'] = system.functions.insert(vars['$status'],0,1,"Не обработано");
-				vars['$ofield'] = system.functions.insert(vars['$ofield'],0,1,data['cmdb.name']);
-				vars['$oval'] = system.functions.insert(vars['$oval'],0,1,data['cmdb.value']);
-				vars['$nfield'] = system.functions.insert(vars['$oval'],0,1,data['sccm.name']);
-				vars['$nval'] = system.functions.insert(vars['$nval'],0,1,data['sccm.value']);
-				vars['$name'] = system.functions.insert(vars['$name'],0,1,data['id']);
+				vars['$action'] = system.functions.insert(vars['$status'],0,1,data['action']);
+				vars['$sccmName'] = system.functions.insert(vars['$ofield'],0,1,data['sccm.name']);
+				vars['$sccmVal'] = system.functions.insert(vars['$oval'],0,1,data['sccm.value']);
+				vars['$cmdbName'] = system.functions.insert(vars['$oval'],0,1,data['cmdb.name']);
+				vars['$cmdbVal'] = system.functions.insert(vars['$nval'],0,1,data['cmdb.value']);
+				vars['$status'] = system.functions.insert(vars['$name'],0,1,data['status']);
 			}while(data.getNext()==RC_SUCCESS)
 		}
 
