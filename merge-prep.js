@@ -9,6 +9,9 @@ function upd(id) {
 		sQuery = sccm.doSelect('SerialNumber0="'+id+'"');
 		dQuery = device.doSelect('serial.no.="'+id+'"');
 		joinQuery = joinpc.doSelect('logical.name="'+device['logical.name']+'"');
+
+		bfQuery = buffer.doSelect('id="'+id+'"');
+		if(bfQuery != RC_SUCCESS){
 			buffer.id =id;
 			buffer.sccm_name = 'SerialNumber0';						//serial
 			buffer.sccm_value = sccm['SerialNumber0'];
@@ -111,6 +114,11 @@ function upd(id) {
 			bufferQuery = buffer.doInsert();
 			print('ok');
 			lib.DDCCallRAD.wizard_run('merge-update-selection',sccm);
+		}
+		else{
+			lib.DDCCallRAD.wizard_run('merge-update-selection',sccm);
+		}
+		vars['$L.file'] = sccm;
 }
 
 
