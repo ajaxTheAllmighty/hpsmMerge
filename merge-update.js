@@ -1,5 +1,7 @@
 var upd = new SCFile('INFIntegrationBuffer');
 var query;
+var device = new SCFile('device');
+var deviceQuery;
 
 	for(var propCount = 0; propCount<vars['$action'].length(); propCount++){
 		if(vars['$action'][propCount]!= 'new'){
@@ -13,5 +15,10 @@ var query;
 			upd.whoUpdated = system.functions.operator();
 			upd.dateUpdated =system.functions.tod();
 				query = upd.doInsert();
+		}
+		if (vars['$action'][propCount]== 'upd'){
+			deviceQuery = device.doSelect(''+vars['$cmdbName'][propCount]+'='+vars['$sccmVal'][propCount]+'');
+			device[vars['$cmdbName']] = vars['$sccmVal'];
+			device.doUpdate();
 		}
 	}

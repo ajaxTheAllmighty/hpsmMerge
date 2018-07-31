@@ -1,13 +1,17 @@
-function buildHTML(){
+//'serial.no.',   				'vendor',    	  	'model',  	'ci.name',	'users',     	'processors.model',	'processors.cores',	'processors.proc',            	'ip.address', 	'mac.address', 	'hdd.capacity'
+function displayResults(){
 	var sCR = "\n";
 	var sHtmlReturn = getCSS();
 	var data = [];
-	var file = new SCFile('INFIntegrationBuffer');
-	var query = file.doSelect('true');
+	var sccm = new SCFile('sccmHardware');
+	var query = sccm.doSelect('dateUpdated<="'+system.function.tod()+'"');
+	var file = new SCFile('device');
+	var deviceQuery;
 	var cnt = 0;
 		if(query == RC_SUCCESS){
+			deviceQuery = device.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 			do{
-				data[cnt] = {'ci.name':file['ci.name'],'cmdb.name':file['cmdb.name'],'cmdb.value':file['cmdb.value'],'sccm.name':file['sccm.name'],'sccm.value':file['sccm.value'],'whoUpdated':file['whoUpdated'],'dateUpdated':file['dateUpdated'],'status':file['status']};
+				data[cnt] = {serial:file['serial.no.'],vendor:file['vendor'],model:file['model'],ciname:file['ci.name'],users:file['users'],procmod:file['processors.model'],proccore:file['processors.cores'],proc:file['processors.proc'],ip:file['ip.address'],mac:file['mac.address'],hdd:file['hdd.capacity']};
 				cnt++;
 			}while(file.getNext() == RC_SUCCESS)
 		}
@@ -15,64 +19,87 @@ function buildHTML(){
 	//var active;
 		sHtmlReturn += "<table class=\"main\">" + sCR;
 		// Table header
-		sHtmlReturn += "<tr><th><div tabindex=\"0\"> Название </div></th>"
-		sHtmlReturn += "<th><div tabindex=\"0\"> Имя CMDB </div></th>"
-		sHtmlReturn += "<th><div tabindex=\"0\"> Значение CMDB </div></th>"
-		sHtmlReturn += "<th><div tabindex=\"0\"> Имя SCCM </div></th>";
-		sHtmlReturn += "<th><div tabindex=\"0\"> Значение SCCM </div></th>";
-		sHtmlReturn += "<th><div tabindex=\"0\"> Кем обновлено </div></th>";
-		sHtmlReturn += "<th><div tabindex=\"0\"> Когда обновлено </div></th>";
-		sHtmlReturn += "<th><div tabindex=\"0\"> Статус </div></th>";
-		//sHtmlReturn += "<th><div tabindex=\"0\"> Операторы</div></th></tr>";
+		sHtmlReturn += "<tr><th><div tabindex=\"0\"> Серийный номер </div></th>"
+		sHtmlReturn += "<th><div tabindex=\"0\"> Производетель </div></th>"
+		sHtmlReturn += "<th><div tabindex=\"0\"> Модель </div></th>"
+		sHtmlReturn += "<th><div tabindex=\"0\"> Имя </div></th>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> Пользователь </div></th>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> Модель процессора </div></th>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> Количество ядер </div></th>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> Количество процессоров </div></th>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> IP адрес</div></th></tr>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> MAC адрес</div></th></tr>";
+		sHtmlReturn += "<th><div tabindex=\"0\"> Обьем дисков </div></th></tr>";
+
+
+		//'serial.no.',   				'vendor',    	  	'model',  	'ci.name',	'users',     	'processors.model',	'processors.cores',	'processors.proc',            	'ip.address', 	'mac.address', 	'hdd.capacity'
 
 	for (var i =0; i<data.length; i++) {
 	//print(data[i]);
 		var sRowClass = i%2==0 ? "evenRow" : "oddRow";
 			sHtmlReturn += "<tr>";
-			if(data[i]['ci.name']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['ci.name']+"</td>";
+			if(data[i]['serial']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['serial']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['cmdb.name']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['cmdb.name']+"</td>";
+			if(data[i]['vendor']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['vendor']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['cmdb.value']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['cmdb.value']+"</td>";
+			if(data[i]['model']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['model']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['sccm.name']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['sccm.name']+"</td>";
+			if(data[i]['ciname']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['ciname']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['sccm.value']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['sccm.value']+"</td>";
+			if(data[i]['users']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['users']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['whoUpdated']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['whoUpdated']+"</td>";
+			if(data[i]['procmod']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['procmod']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['dateUpdated']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['dateUpdated']+"</td>";
+			if(data[i]['proccore']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['proccore']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
-			if(data[i]['status']!=null){
-				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['status']+"</td>";
+			if(data[i]['proc']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['proc']+"</td>";
+			}
+			else{
+				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
+			}
+			if(data[i]['ip']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['ip']+"</td>";
+			}
+			else{
+				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
+			}
+			if(data[i]['mac']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['mac']+"</td>";
+			}
+			else{
+				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
+			}
+			if(data[i]['hdd']!=null){
+				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['hdd']+"</td>";
 			}
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
@@ -82,23 +109,5 @@ function buildHTML(){
 	}
 			sHtmlReturn += "</table>" + sCR;
 return sHtmlReturn;
-
-}
-
-function getCSS(){
-	var style;
-	style =		"<style> ";
-	style +=	"body{border:0 0 0 0;margin:0;padding:0;font-family: Verdana, Arial, Helvetica, sans-serif;}";
-	style +=	".error{color: #454323;background: white;}";
-	style +=	".error td{padding:1 2 1 1;color: red;line-height: 12;}";
-	style +=	".main{width:100%;font-size: 10;text-align: left}";
-	style +=	".main th{font-weight: bold;padding:4;background: #E0E0E0;}";
-	style +=	"th.rowtitle{font-weight: bold;padding:4;background: #99BBE8;}";
-	style +=	".oddRow{background: #edf3fe;color: black}";
-	style +=	".evenRow{background: white;color: black}";
-	style +=	".message{background: white;color: blue}";
-	style +=	"</style>"
-
-	return style;
 
 }
