@@ -4,13 +4,13 @@ function displayResults(){
 	var sHtmlReturn = getCSS();
 	var data = [];
 	var sccm = new SCFile('sccmHardware');
-	var query = sccm.doSelect('dateUpdated<="'+system.function.tod()+'"');
+	var query = sccm.doSelect('dateUpdated<="'+system.functions.tod()+'"');
 	var file = new SCFile('device');
 	var deviceQuery;
 	var cnt = 0;
 		if(query == RC_SUCCESS){
-			deviceQuery = device.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 			do{
+				deviceQuery = file.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 				data[cnt] = {serial:file['serial.no.'],vendor:file['vendor'],model:file['model'],ciname:file['ci.name'],users:file['users'],procmod:file['processors.model'],proccore:file['processors.cores'],proc:file['processors.proc'],ip:file['ip.address'],mac:file['mac.address'],hdd:file['hdd.capacity']};
 				cnt++;
 			}while(file.getNext() == RC_SUCCESS)
