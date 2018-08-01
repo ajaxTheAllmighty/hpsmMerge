@@ -1,3 +1,7 @@
+// merge-upd-selection -> Выбор файла -> JS
+
+
+
 var data = new SCFile('INFIntegrationBuffer');
 	var query = data.doSelect('id="'+vars['$L.file']['SerialNumber0']+'"')
 		if(query == RC_SUCCESS){
