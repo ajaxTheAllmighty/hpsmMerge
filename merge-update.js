@@ -1,35 +1,3 @@
-// merge-upd-selection -> Действия -> JS
-var _lng = system.functions.lng;
-var _ins = system.functions.insert;
-var _op = system.functions.operator;
-var _date = system.functions.tod;
-var _val = system.functions.val;
-
-
-
-
-var upd = new SCFile('INFIntegrationBuffer');
-var query;
-var device = new SCFile('device');
-var joinpc = new SCFile('joinpc');
-var deviceQuery,joinQuery;
-	for(var propCount = 0; propCount<_lng(vars['$action']); propCount++){
-		if(vars['$action'][propCount]!= 'new'){
-			//upd.ci_name = vars['$name'][propCount];
-			upd.cmdb_name = vars['$cmdbName'][propCount];
-			upd.cmdb_value = _val(vars['$cmdbVal'][propCount],2);
-			upd.sccm_name = vars['$sccmName'][propCount];
-			upd.sccm_value = _val(vars['$sccmVal'][propCount],2);
-			//upd.id = vars['$name'][propCount];
-			upd.status = vars['$action'][propCount];
-			upd.whoUpdated = _op;
-			upd.dateUpdated =_date;
-				query = upd.doUpdate();
-		}
-
-		print(vars['$cmdbName'][propCount]);
-	}
-
 	// merge-upd-selection -> Действия -> JS
 	var _lng = system.functions.lng;
 	var _ins = system.functions.insert;
