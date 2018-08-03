@@ -1,48 +1,59 @@
-	// merge-upd-selection -> Действия -> JS
+// TODO: Замутить проверку на наличие данных в device при выборке в буферную таблицу
+
+function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 	var _lng = system.functions.lng;
 	var _ins = system.functions.insert;
 	var _op = system.functions.operator;
 	var _date = system.functions.tod;
 	var _val = system.functions.val;
-
-
-
-
 	var upd = new SCFile('INFIntegrationBuffer');
 	var query;
 	var device = new SCFile('device');
 	var joinpc = new SCFile('joinpc');
 	var deviceQuery,joinQuery;
-		for(var propCount = 0; propCount<_lng(vars['$action']); propCount++){
-			if(vars['$action'][propCount]!= 'new'){
-				//upd.ci_name = vars['$name'][propCount];
-				upd.cmdb_name = vars['$cmdbName'][propCount];
-				upd.cmdb_value = _val(vars['$cmdbVal'][propCount],2);
-				upd.sccm_name = vars['$sccmName'][propCount];
-				upd.sccm_value = _val(vars['$sccmVal'][propCount],2);
-				//upd.id = vars['$name'][propCount];
-				upd.status = vars['$action'][propCount];
-				upd.whoUpdated = _op;
-				upd.dateUpdated =_date;
+		for(var propCount = 0; propCount<_lng(action); propCount++){
+			if(action[propCount]!= 'new'){
+				upd.cmdb_name = cmdbName[propCount];
+				upd.cmdb_value = _val(cmdbVal[propCount],2);
+				upd.sccm_name = sccmName[propCount];
+				upd.sccm_value = _val(sccmVal[propCount],2);
+				upd.status = action[propCount];
+				upd.whoUpdated = _op();
+				upd.dateUpdated =_date();
 					query = upd.doUpdate();
 			}
-			if (vars['$action'][propCount]== 'upd'){
-				deviceQuery = device.doSelect(''+vars['$cmdbName'][propCount]+'="'+vars['$sccmVal'][propCount]+'"');
+			print('buffer done');
+			if (action[propCount]== 'upd'){
+				deviceQuery = device.doSelect('serial.no.="'+sccmVal[0]+'"');
+				print('device select');
 				joinQuery = joinpc.doSelect('logical.name="'+device['logical.name']+'"');
-				if(!(vars['$cmdbName'][propCount]=='processors.cores')&&(vars['$cmdbName'][propCount]=='processors.proc')&&(vars['$cmdbName'][propCount]=='processors.model')&&(vars['$cmdbName'][propCount]=='hdd.capacity')){		//Эти поля из joinpc
-					device[vars['$cmdbName'][propCount]] = vars['$sccmVal'][propCount];
-				}
-				else{
-					if(vars['$cmdbName']=='hdd.capacity'){
-						joinpc[vars['$cmdbName'][propCount]] = vars['$sccmVal'][propCount];
+				print('joinpc select');
+				if((cmdbName[propCount]!='processors.cores')&&(cmdbName[propCount]!='processors.proc')&&(cmdbName[propCount]!='processors.model')&&(cmdbName[propCount]!='hdd.capacity')){		//Эти поля из joinpc
+					if(cmdbName[propCount]!='users'){
+						print(device[cmdbName[propCount]]+' '+typeof(device[cmdbName[propCount]]));
+						device[cmdbName[propCount]] = sccmVal[propCount];
+						print('device val add '+sccmVal[propCount] +' '+typeof(sccmVal[propCount]));
 					}
 					else{
-						joinpc[vars['$cmdbName'][propCount]] = _ins(joinpc[vars['$cmdbName'][propCount]],0,1,vars['$sccmVal'][propCount]);
+						device[cmdbName[propCount]] = _ins(device[cmdbName[propCount]],0,1,sccmVal[propCount]);
+					}
+
+				}
+				else{
+					if(cmdbName=='hdd.capacity'){
+						joinpc[cmdbName[propCount]] = sccmVal[propCount];
+						print('joinpc hdd '+sccmVal[propCount])
+					}
+					else{
+						joinpc[cmdbName[propCount]] = _ins(joinpc[cmdbName[propCount]],0,1,sccmVal[propCount]);
+						print('joinpc proc '+sccmVal[propCount])
 					}
 				}
 				device.doUpdate();
+				print('device upd');
 				joinpc.doUpdate();
-				break;
+				print('joinpc upd');
 			}
-			print(vars['$cmdbName'][propCount]);
+			print(propCount);
 		}
+}
