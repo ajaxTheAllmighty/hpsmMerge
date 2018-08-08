@@ -6,13 +6,20 @@ Create:
 		Test trasnfer (filials)	:  отображение данных с возможностью выбора для обновления\игнорирования merge-display.js
 		Test transfer.upd	: обновление данных в соответсствии с выбором merge-update.js
 		test transfer showResults	: отображение результатов merge-display-results.js
+		INF.merge-add визард добавления эк
+		INF.merge-upd	визард обновления эк
+		INF.merge-upd-selection	выбор полей для обновлния
+		INF.merge-upd-show-results	результаты обновлуния
 	displayscreen:
 		mergeWizard.display для отображения кастомных кнопок в визарде (обновить\игнорить все)
+		INF.merge.add.wizard.display
 	displayoptions
 		mergeWizard.display_updateAll
 		mergeWizard.display_ignoreAll
-		displayevent
-			merge.add.openLink
+	displayevent
+		merge.add.openLink
+		INF.merge.add.wizard.display_Custom кнопка добавления эк
+		INF.merge.upd.wizard.display_Custom кнопка обновления эк
 Mod:
 	triggers:
 		INFIntegrationBuffer.b.a.setId отключил
@@ -28,3 +35,7 @@ Mod:
 		infFilials.translate
 			добавить кнопки:
 				Обновить все, Игнорировать все
+
+
+TODO исправить ерроры в визарде обновления (хз чо там, вроде косяки на апдейтах)
+	допилить обновление

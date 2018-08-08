@@ -1,4 +1,3 @@
-// TODO: Замутить проверку на наличие данных в device при выборке в буферную таблицу
 
 function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 	var _lng = system.functions.lng;
