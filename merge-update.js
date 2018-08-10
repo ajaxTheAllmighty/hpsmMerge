@@ -1,4 +1,3 @@
-
 function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 	var _lng = system.functions.lng;
 	var _ins = system.functions.insert;
@@ -12,18 +11,19 @@ function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 	var deviceQuery,joinQuery;
 		for(var propCount = 0; propCount<_lng(action); propCount++){
 			if(action[propCount]!= 'new'){
-				upd.cmdb_name = cmdbName[propCount];
-				upd.cmdb_value = _val(cmdbVal[propCount],2);
-				upd.sccm_name = sccmName[propCount];
-				upd.sccm_value = _val(sccmVal[propCount],2);
-				upd.status = action[propCount];
-				upd.whoUpdated = _op();
-				upd.dateUpdated =_date();
-					query = upd.doUpdate();
+				query = upd.doSelect('id="'+vars['$L.file']['SerialNumber0']+'"');
+					upd.cmdb_name = cmdbName[propCount];
+					upd.cmdb_value = _val(cmdbVal[propCount],2);
+					upd.sccm_name = sccmName[propCount];
+					upd.sccm_value = _val(sccmVal[propCount],2);
+					upd.status = action[propCount];
+					upd.whoUpdated = _op();
+					upd.dateUpdated =_date();
+						var rc = upd.doUpdate();
 			}
 			print('buffer done');
 			if (action[propCount]== 'upd'){
-				deviceQuery = device.doSelect('serial.no.="'+sccmVal[0]+'"');
+				deviceQuery = device.doSelect('serial.no.="'+vars['$L.file']['SerialNumber0']+'"');
 				print('device select');
 				joinQuery = joinpc.doSelect('logical.name="'+device['logical.name']+'"');
 				print('joinpc select');
@@ -36,22 +36,29 @@ function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 					else{
 						device[cmdbName[propCount]] = _ins(device[cmdbName[propCount]],0,1,sccmVal[propCount]);
 					}
-
+					var rc = device.doUpdate();
+					print(system.functions.contents(device));
+					print('device upd '+RCtoString(rc));
 				}
 				else{
-					if(cmdbName=='hdd.capacity'){
-						joinpc[cmdbName[propCount]] = sccmVal[propCount];
-						print('joinpc hdd '+sccmVal[propCount])
+					if(joinQuery == RC_SUCCESS){
+						if(cmdbName[propCount]=='hdd.capacity'){
+							joinpc[cmdbName[propCount]] = _val(sccmVal[propCount]);
+							print('joinpc hdd '+sccmVal[propCount])
+						}
+						else{
+							joinpc[cmdbName[propCount]] = _ins(joinpc[cmdbName[propCount]],0,1,sccmVal[propCount]);
+							print('joinpc proc '+sccmVal[propCount])
+						}
+						var rrc = joinpc.doUpdate();
+						print(system.functions.contents(joinpc));
+						print('joinpc upd '+RCtoString(rrc));
 					}
 					else{
-						joinpc[cmdbName[propCount]] = _ins(joinpc[cmdbName[propCount]],0,1,sccmVal[propCount]);
-						print('joinpc proc '+sccmVal[propCount])
+						joinpc['logical.name'] = device['logical.name'];
+						var rrc = joinpc.doInsert();
 					}
 				}
-				device.doUpdate();
-				print('device upd');
-				joinpc.doUpdate();
-				print('joinpc upd');
 			}
 			print(propCount);
 		}

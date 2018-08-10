@@ -31,6 +31,9 @@ Mod:
 		sccmHardware:
 			добавить поле:
 				wasUpdated логическое - для отсекания записей которые были обновлены
+		device:
+			увеличить длину поля:
+				mac.address до 250
 	formdesigner:
 		infFilials.translate
 			добавить кнопки:
