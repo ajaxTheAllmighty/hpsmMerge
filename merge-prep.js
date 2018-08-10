@@ -22,7 +22,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Manufacturer00';						//vendor
 			buffer.sccm_value = sccm['Manufacturer00'];
@@ -31,7 +31,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Model00';								//model
 			buffer.sccm_value = sccm['Model00'];
@@ -40,7 +40,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Name00';								//name
 			buffer.sccm_value = sccm['Name00'];
@@ -49,7 +49,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'UserName00';							//user
 			buffer.sccm_value = sccm['UserName00'];
@@ -58,7 +58,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'ProcName00';							//procname
 			buffer.sccm_value = sccm['ProcName00'];
@@ -67,7 +67,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'NumberOfCores00';						//cores
 			buffer.sccm_value = sccm['NumberOfCores00'];
@@ -76,7 +76,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'NumberOfLogicalProcessors00';				//procs
 			buffer.sccm_value = sccm['NumberOfLogicalProcessors00'];
@@ -85,7 +85,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'IPAddress00';							//ip
 			buffer.sccm_value = sccm['IPAddress00'];
@@ -94,7 +94,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'MACAddress00';							//mac
 			buffer.sccm_value = sccm['MACAddress00'];
@@ -103,7 +103,7 @@ function upd(id) {
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
 				print(system.functions.contents(buffer));
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			buffer.id =id;
 			buffer.sccm_name = 'Size00';								//size
 			buffer.sccm_value = sccm['Size00'];
@@ -111,16 +111,15 @@ function upd(id) {
 			buffer.cmdb_value = joinpc['hdd.capacity'];
 			buffer.dateUpdated = system.functions.tod();
 			buffer.whoUpdated = system.functions.operator();
-			bufferQuery = buffer.doInsert();
+			buffer.doInsert();
 			print('ok');
-			lib.DDCCallRAD.wizard_run('merge-update-selection',sccm);
+			//lib.DDCCallRAD.wizard_run('merge-upd-selection',sccm);
 		}
 		else{
-			lib.DDCCallRAD.wizard_run('merge-update-selection',sccm);
+			//lib.DDCCallRAD.wizard_run('merge-upd-selection',sccm);
 		}
 		vars['$L.file'] = sccm;
 }
-
 
 
 function showAll(){

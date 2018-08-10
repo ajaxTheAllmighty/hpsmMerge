@@ -12,8 +12,18 @@ var data = new SCFile('INFIntegrationBuffer');
 				vars['$sccmName'] = system.functions.insert(vars['$sccmName'],0,1,data['sccm.name']);
 				vars['$sccmVal'] = system.functions.insert(vars['$sccmVal'],0,1,data['sccm.value']);
 				vars['$cmdbName'] = system.functions.insert(vars['$cmdbName'],0,1,data['cmdb.name']);
-				vars['$cmdbVal'] = system.functions.insert(vars['$cmdbVal'],0,1,data['cmdb.value']);
-				vars['$status'] = system.functions.insert(vars['$status'],0,1,data['status']);
+				if(data['cmdb.value']!=null){
+					vars['$cmdbVal'] = system.functions.insert(vars['$cmdbVal'],0,1,data['cmdb.value']);
+				}
+				else{
+					vars['$cmdbVal'] = system.functions.insert(vars['$cmdbVal'],0,1," ");
+				}
+				if(data['status']!=null){
+					vars['$status'] = system.functions.insert(vars['$status'],0,1,data['status']);
+				}
+				else{
+					vars['$status'] = system.functions.insert(vars['$status'],0,1," ");
+				}
 			}while(data.getNext()==RC_SUCCESS)
 		}
 
