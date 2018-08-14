@@ -47,7 +47,7 @@ function showAll(){
 	var cnt = 0;
 	var sCR = "\n";
 	var sHtmlReturn = getCSS();
-	sQuery = sccm.doSelect('true');
+	sQuery = sccm.doSelect('wasUpdated~="true"');
 	do{
 		dQuery = device.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 		if(sccm['status']!='add' && sccm['wasUpdated']!=true && dQuery == RC_SUCCESS){
@@ -67,7 +67,7 @@ function showAll(){
 	sHtmlReturn += "<th><div tabindex=\"0\"> Пользователь </div></th>";
 	sHtmlReturn += "<th><div tabindex=\"0\"> Процессор </div></th>";
 	sHtmlReturn += "<th><div tabindex=\"0\"> Количество ядер </div></th>";
-	sHtmlReturn += "<th><div tabindex=\"0\"> Количество процессовор </div></th>";
+	sHtmlReturn += "<th><div tabindex=\"0\"> Количество процессоров </div></th>";
 	sHtmlReturn += "<th><div tabindex=\"0\"> IP </div></th>";
 	sHtmlReturn += "<th><div tabindex=\"0\"> MAC </div></th>";
 	sHtmlReturn += "<th><div tabindex=\"0\"> Обьем жестких дисков </div></th>";

@@ -4,6 +4,7 @@ function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 	var _op = system.functions.operator;
 	var _date = system.functions.tod;
 	var _val = system.functions.val;
+	var _tod = system.functions.tod;
 	var upd = new SCFile('INFIntegrationBuffer');
 	var query;
 	var device = new SCFile('device');
@@ -34,6 +35,7 @@ function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 						print('device val add '+sccmVal[propCount] +' '+typeof(sccmVal[propCount]));
 					}
 					else{
+						device[cmdbName[propCount]] = new Array;
 						device[cmdbName[propCount]] = _ins(device[cmdbName[propCount]],0,1,sccmVal[propCount]);
 					}
 					var rc = device.doUpdate();
@@ -47,6 +49,7 @@ function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 							print('joinpc hdd '+sccmVal[propCount])
 						}
 						else{
+							joinpc[cmdbName[propCount]] = new Array;
 							joinpc[cmdbName[propCount]] = _ins(joinpc[cmdbName[propCount]],0,1,sccmVal[propCount]);
 							print('joinpc proc '+sccmVal[propCount])
 						}
@@ -62,4 +65,13 @@ function doUPD(cmdbName,cmdbVal,sccmName,sccmVal,action){
 			}
 			print(propCount);
 		}
+
+		var sccm = new SCFile('sccmHardware');
+		var sQuery = sccm.doSelect('SerialNumber0="'+vars['$L.file']['SerialNumber0']+'"');
+		if(sQuery == RC_SUCCESS){
+			sccm.wasUpdated = true;
+			sccm.dateUpdated = _tod();
+			sccm.operUpdated = _op();
+		}
+		var rcc = sccm.doUpdate();
 }
